@@ -3,28 +3,30 @@ import requests, os, timeit, time, platform
 from bs4 import BeautifulSoup as bs4
 
 MENU = f"""
-    +=========================================================+
-    |                                                         |
-    |            WELCOME TO MANGADL-v1.0.0                    |
-    |            AUTHOR: l1LD202                              |
-    |                                                         |
-    +=========================================================+
-
-    [Options]
-
-    0.Initialize        \033[31;1m[Warning]: Use it for the first time\033[32;1m
-    1.Chose Server      [default]: READM    [Disable]
-    2.Search            [default]: by NAME
-    3.Download Manga    [default]: by UID
-    4.Random Manga      
-
-    9.EXIT
-"""
+    ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰
+    ▰                                                            ▰
+    ▰            WELCOME TO MANGADL-v1.0.0                       ▰
+    ▰            AUTHOR: l1LD202                                 ▰
+    ▰                                                            ▰
+    ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰
+    ▰                                                            ▰
+    ▰   [Options]                                                ▰
+    ▰                                                            ▰
+    ▰       1.Chose Server      [default]: READM    [Disable]    ▰
+    ▰       2.Search            [default]: by NAME               ▰
+    ▰       3.Download Manga    [default]: by UID                ▰
+    ▰       4.Random Manga                                       ▰
+    ▰                                                            ▰
+    ▰       0.EXIT                                               ▰
+    ▰                                                            ▰
+    ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰
+""" 
 
 class MangaDL:
     def __init__(self):
         self.version = 'v.1.0.0'
         self.CheckForUpdate()
+        time.sleep(1)
         self.Loop()
 
     def CheckForUpdate(self):
@@ -66,15 +68,10 @@ class MangaDL:
                         f.write(download_url)
                         
                     return 0
-
             else:
                 return 0
-
         else:
             return 0
-
-    def Initialize(self):
-        pass
 
     def RandomManga(self):
         pass
@@ -95,14 +92,13 @@ class MangaDL:
                 if platform.system().lower() in ['linux', 'darwin']: os.system('clear')
                 if platform.system().lower() == 'windows': os.system('cls')
                 print(MENU)
-                source = int(input('PLEASE CHOSE AN OPTION: '))
+                source = int(input('    PLEASE CHOSE AN OPTION: '))
 
-                if   source == 0: self.Initialize()     
+                if   source == 0: print('\n    Have a nice day!\n'); break
                 elif source == 1: self.ChoseServer()    
                 elif source == 2: self.Search()         
                 elif source == 3: self.Download()       
                 elif source == 4: self.RandomManga()    
-                elif source == 9: print('\nHave a nice day!\n'); break
 
                 else:
                     pass
