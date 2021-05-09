@@ -1,33 +1,16 @@
 #!bin/python3.9
-import requests, os, timeit, time, platform
-from bs4 import BeautifulSoup as bs4
-
-MENU = f"""
-    ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰
-    ▰                                                            ▰
-    ▰            WELCOME TO MANGADL-v1.0.0                       ▰
-    ▰            AUTHOR: l1LD202                                 ▰
-    ▰                                                            ▰
-    ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰
-    ▰                                                            ▰
-    ▰   [Options]                                                ▰
-    ▰                                                            ▰
-    ▰       1.Chose Server      [default]: READM    [Disable]    ▰
-    ▰       2.Search            [default]: by NAME               ▰
-    ▰       3.Download Manga    [default]: by UID                ▰
-    ▰       4.Random Manga                                       ▰
-    ▰                                                            ▰
-    ▰       0.EXIT                                               ▰
-    ▰                                                            ▰
-    ▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰
-""" 
+from READM import *
+from UI import *
 
 class MangaDL:
     def __init__(self):
         self.version = 'v.1.0.0'
         self.CheckForUpdate()
-        time.sleep(1)
-        self.Loop()
+
+        self.dataBASE = 'READM'
+        # self._loadDataBase()
+
+        self.MENU()
 
     def CheckForUpdate(self):
         
@@ -45,18 +28,18 @@ class MangaDL:
             print('new version: %s.'%git)
         
             new_update = input('Update To the new version[Y/n]? ').lower()
-            if new_update in ('y', 'ye', 'yes', 'yeah', 'ok'):
+            if new_update in ['y', 'ye', 'yes', 'yeah', 'ok']:
                 try:
                     print('Downloading the new version at %s...'%os.getcwd())
                     print('\033[31;1m[WARNING] Do Not Close The Program\033[32;1')
                     download_url = 'https://github.com/HLD202/MangaDL/raw/master/MangaDL'
                     download_req = requests.get(download_url).content
 
-                    with open(f'../MangaDL-{git}', 'wb') as f:
+                    with open(f'Manga-DL-{git}', 'wb') as f:
                         print('Deploying MangaDL')
                         f.write(download_req)
 
-                        print(f'MangaDL-{git} is Ready.')
+                        print(f'Manga-DL-{git} is Ready.')
                         os.sys.exit()
 
                 except:
@@ -76,34 +59,59 @@ class MangaDL:
     def RandomManga(self):
         pass
 
-    def Search(self):
-        pass
+    def SEARCH(self):
+        loop = True
+        while loop:
+            self.clearSCREEN()
+            print(SEARCH)
+            try:
+                option = int(input('    PLEASE CHOSE AN OPTION: '))
+
+                if option == 1: title = input('    PLEASE ENTER MANGA TITEL: ').upper()     ; READM.SEARCH(self,name=title)    
+                if option == 2: uid   = input('    PLEASE ENTER MANGA UID: ')               ; READM.SEARCH(self,uid=uid)       
+                if option == 3: stat  = input('    PLEASE ENTER MANGA STATUE: ').upper()    ; READM.SEARCH(self,statue=stat)  
+                if option == 0: self.MENU(); break
+
+                while True:
+                    ask = input('\n    Search More[Y/n]? ')
+                    if ask.lower() in ['y', 'ye', 'yes', 'yeah', 'ok']:
+                        break
+                    elif ask.lower() in ['n', 'no', 'na', 'nop', 'nope']:
+                        return 0
+                    else:
+                        continue
+            except:
+                pass
+
 
     def Download(self):
         pass
 
+    def _loadDataBase(self):
+        if self.dataBASE == 'READM': READM().CREATEDataBase()
+
     def ChoseServer(self):
         return self.Loop()
 
-    def Loop(self):
-        while True:
+    def MENU(self):
+        while True:        
+
+            self.clearSCREEN()    
+            print(MENU)
             try:
-                # Clear the screen
-                if platform.system().lower() in ['linux', 'darwin']: os.system('clear')
-                if platform.system().lower() == 'windows': os.system('cls')
-                print(MENU)
                 source = int(input('    PLEASE CHOSE AN OPTION: '))
 
-                if   source == 0: print('\n    Have a nice day!\n'); break
-                elif source == 1: self.ChoseServer()    
-                elif source == 2: self.Search()         
-                elif source == 3: self.Download()       
-                elif source == 4: self.RandomManga()    
-
-                else:
-                    pass
+                if   source == 0: print('\n    Have a nice day!\n') ;return 0
+                elif source == 1: self.ChoseServer()                ;return 0
+                elif source == 2: self.SEARCH()                     ;return 0    
+                elif source == 3: self.Download()                   ;return 0
+                elif source == 4: self.RandomManga()                ;return 0
             except:
                 pass
+
+    def clearSCREEN(self):
+        if platform.system().lower() in ['linux', 'darwin']: os.system('clear')
+        if platform.system().lower() == 'windows': os.system('cls')
 
 if __name__=='__main__':
     MangaDL()
